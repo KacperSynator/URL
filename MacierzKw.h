@@ -8,9 +8,14 @@
 ******************************/
 
 class MacierzKw {
+
     Wektor tabM[ROZMIAR];
 
+    double Wyznacznik2x2(int wiersz,int kolumna); // wiersz/kolumna wykreślona
+
 public:
+    enum MetodaWyznacznik{Sarrus, Laplace, Gauss};
+
     MacierzKw();
     MacierzKw(Wektor *w);
     MacierzKw(double x1,double y1,double z1,double x2,double y2,double z2,double x3,double y3,double z3);
@@ -18,15 +23,14 @@ public:
 
     const MacierzKw  transpozycja() const;
 
-    const Wektor operator * (const Wektor & W) const;
-    const MacierzKw operator * (MacierzKw & W) const;
-    const MacierzKw operator + (const MacierzKw & W) const;
-    const MacierzKw operator - (const MacierzKw & W) const;
-    const MacierzKw operator * (double l) const;
-    const MacierzKw operator / (double l) const;
+    Wektor operator * (const Wektor & W) const;
+    MacierzKw operator * (MacierzKw & W) const;
+    MacierzKw operator + (const MacierzKw & W) const;
+    MacierzKw operator - (const MacierzKw & W) const;
+    MacierzKw operator * (double l) const;
+    MacierzKw operator / (double l) const;
 
-    double Wyznacznik2x2(int wiersz,int kolumna); // wiersz/kolumna wykreślona
-    double WyznacznikL(); // Laplace // względem pierwszego wiersza
+    double Wyznacznik(MetodaWyznacznik Metoda);
     const MacierzKw  Odwrotnosc(); // z macierzy dopełnien
 
     bool operator == (const MacierzKw & W2) const;

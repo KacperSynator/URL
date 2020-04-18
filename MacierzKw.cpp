@@ -6,11 +6,13 @@ MacierzKw::MacierzKw()
         for(int j=0;j<ROZMIAR;j++)
             tabM[i][j]=0;
 }
+
 MacierzKw::MacierzKw(Wektor *w)
 {
     for(int i=0;i<ROZMIAR;i++)
             tabM[i]=w[i];
 }
+
 MacierzKw::MacierzKw(double x1,double y1,double z1,double x2,double y2,double z2,double x3,double y3,double z3)
 {
     tabM[0][0]=x1;
@@ -22,13 +24,13 @@ MacierzKw::MacierzKw(double x1,double y1,double z1,double x2,double y2,double z2
     tabM[2][0]=x3;
     tabM[2][1]=y3;
     tabM[2][2]=z3;
-
 }
+
 MacierzKw::MacierzKw(Wektor a1, Wektor a2, Wektor a3)
 {
-    tabM[0]=a1;
-    tabM[1]=a2;
-    tabM[2]=a3;
+        tabM[0] = a1;
+        tabM[1] = a2;
+        tabM[2] = a3;
 }
 
 const MacierzKw  MacierzKw:: transpozycja() const
@@ -41,7 +43,7 @@ const MacierzKw  MacierzKw:: transpozycja() const
     return MKP;
 }
 
-const Wektor MacierzKw:: operator * (const Wektor & W) const
+Wektor MacierzKw:: operator * (const Wektor & W) const
 {
     Wektor WP;
     for(int i=0;i<ROZMIAR;i++)
@@ -50,7 +52,7 @@ const Wektor MacierzKw:: operator * (const Wektor & W) const
     return WP;
 }
 
-const MacierzKw MacierzKw:: operator * (MacierzKw & W) const
+MacierzKw MacierzKw:: operator * (MacierzKw & W) const
 {
     MacierzKw MKP;
     for(int i=0;i<ROZMIAR;i++)
@@ -60,7 +62,7 @@ const MacierzKw MacierzKw:: operator * (MacierzKw & W) const
     return MKP;
 }
 
-const MacierzKw MacierzKw:: operator + (const MacierzKw & W) const
+MacierzKw MacierzKw:: operator + (const MacierzKw & W) const
 {
     MacierzKw MKP;
     for(int i=0;i<ROZMIAR;i++)
@@ -69,7 +71,7 @@ const MacierzKw MacierzKw:: operator + (const MacierzKw & W) const
     return MKP;
 }
 
-const MacierzKw MacierzKw:: operator - (const MacierzKw & W) const
+MacierzKw MacierzKw:: operator - (const MacierzKw & W) const
 {
     MacierzKw MKP;
     for(int i=0;i<ROZMIAR;i++)
@@ -77,7 +79,7 @@ const MacierzKw MacierzKw:: operator - (const MacierzKw & W) const
 
     return MKP;
 }
-const MacierzKw MacierzKw:: operator / (double l) const
+MacierzKw MacierzKw:: operator / (double l) const
 {
     if(l==0)
     {
@@ -91,7 +93,7 @@ const MacierzKw MacierzKw:: operator / (double l) const
     return MKP;
 }
 
-const MacierzKw MacierzKw:: operator * (double l) const
+MacierzKw MacierzKw:: operator * (double l) const
 {
     MacierzKw MKP;
     for(int i=0;i<ROZMIAR;i++)
@@ -122,15 +124,47 @@ double MacierzKw:: Wyznacznik2x2(int wiersz,int kolumna) // wiersz/kolumna wykre
     }
     return M2x2[0]*M2x2[3]-M2x2[1]*M2x2[2];
 }
-double MacierzKw:: WyznacznikL() // względem pierwszego wiersza
+double MacierzKw:: Wyznacznik(MetodaWyznacznik Metoda) // względem pierwszego wiersza
 {
      double wynik=0;
-     for(int i=0;i<ROZMIAR;i++)
+     switch (Metoda)
      {
-        if(i%2==1)
-         wynik-= tabM[0][i] * Wyznacznik2x2(0,i);
-        else
-         wynik+= tabM[0][i] * Wyznacznik2x2(0,i);
+         case Laplace:
+             for (int i = 0; i < ROZMIAR; i++)
+           {
+              if (i % 2 == 1)
+                  wynik -= tabM[0][i] * Wyznacznik2x2(0, i);
+              else
+                  wynik += tabM[0][i] * Wyznacznik2x2(0, i);
+           }
+           break;
+
+         case Sarrus:
+                 wynik+=tabM[0][0]*tabM[1][1]*tabM[2][2];
+                 wynik+=tabM[0][1]*tabM[1][2]*tabM[2][0];
+                 wynik+=tabM[0][2]*tabM[1][0]*tabM[2][1];
+                 wynik-=tabM[0][2]*tabM[1][1]*tabM[2][0];
+                 wynik-=tabM[0][0]*tabM[1][2]*tabM[2][1];
+                 wynik-=tabM[0][1]*tabM[1][0]*tabM[2][2];
+             break;
+
+         case Gauss:
+             MacierzKw MP=tabM;
+             for (int i = 0; i <ROZMIAR-1 ; ++i)
+             {
+                 for (int j = i+1; j <ROZMIAR ; ++j)
+                 {
+                     double l = MP[j][i]/MP[i][i];
+                     MP[j]=MP[j]-l*MP[i];
+                 }
+             }
+             wynik=1;
+             for (int i = 0; i <ROZMIAR ; ++i)
+             {
+                 wynik*=MP[i][i];
+             }
+             break;
+
      }
     return wynik;
 }
@@ -138,7 +172,7 @@ double MacierzKw:: WyznacznikL() // względem pierwszego wiersza
 const MacierzKw  MacierzKw:: Odwrotnosc()
 {
     MacierzKw MKP;
-    double wyznacznik=WyznacznikL();
+    double wyznacznik=Wyznacznik(Laplace);
     if(wyznacznik==0)
     {
         std::cout<<"Macierz nie jest odwracalna"<<std::endl;

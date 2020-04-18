@@ -4,6 +4,7 @@
 #include <iostream>
 
 #define ROZMIAR 3
+#define EPSILON 0.000000000000000000001
 
 class Wektor {
 
@@ -14,12 +15,12 @@ public:
     Wektor(double x, double y, double z);
     Wektor(double * tab);
 
-    const Wektor  operator + (const Wektor & W2) const;
-    const Wektor  operator - (const Wektor & W2) const;
+    Wektor  operator + (const Wektor & W2) const;
+    Wektor  operator - (const Wektor & W2) const;
     double operator * (const Wektor & W2) const; // SKALARNY
 
-    const Wektor  operator * (double li) const;
-    const Wektor  operator / (double li) const;
+    Wektor  operator * (double li) const;
+    Wektor  operator / (double li) const;
 
     bool operator == (const Wektor & W2) const;
     bool operator != (const Wektor & W2) const;
