@@ -55,8 +55,11 @@ Wektor UkladRownan:: Oblicz(const MetodaOliczania Metoda)
                         if (MP[i][k] != 0)
                         {
                             Wektor WP = MP[i];
+                            double lp=X[i];
                             MP[i] = MP[k];
+                            X[i]=X[k];
                             MP[k] = WP;
+                            X[k]=lp;
                             break;
                         }
                     }
@@ -74,6 +77,23 @@ Wektor UkladRownan:: Oblicz(const MetodaOliczania Metoda)
             }
             for (int i = ROZMIAR-1; i >0 ; --i)
             {
+                if(MP[i][i]==0)
+                {
+                    for (int k = 0; k < ROZMIAR; k++)
+                    {
+                        if (MP[i][k] != 0)
+                        {
+                            Wektor WP = MP[i];
+                            double lp=X[i];
+                            MP[i] = MP[k];
+                            X[i]=X[k];
+                            MP[k] = WP;
+                            X[k]=lp;
+                            break;
+                        }
+                    }
+
+                }
                 for (int j =i-1; j >=0 ; --j)
                 {
                     double l = MP[j][i]/MP[i][i];

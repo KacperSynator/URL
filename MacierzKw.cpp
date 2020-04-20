@@ -168,9 +168,7 @@ double MacierzKw:: Wyznacznik(const MetodaWyznacznik Metoda) // względem pierws
                          }
                      }
                      if (czyZera)
-                     {
                          return wynik;
-                     }
                  }
                  for (int j = i+1; j <ROZMIAR ; ++j)
                  {
@@ -268,11 +266,15 @@ Wektor & MacierzKw:: operator[] (int index)
 
 std::ostream & operator << (std::ostream & strm,const MacierzKw & MK)
 {
-    strm<< MK[0] << std::endl << MK[1] << std:: endl << MK[2] ;
+    for (int i = 0; i < ROZMIAR; ++i)
+        strm << MK[i] << std::endl;
+
     return strm;
 }
 std::istream & operator >> (std::istream & strm, MacierzKw & MK)
 {
-    strm>> MK[0] >> MK[1] >> MK[2];
+    for (int i = 0; i < ROZMIAR; ++i)
+        strm >> MK[i];
+
     return strm;
 }

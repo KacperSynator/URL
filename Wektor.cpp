@@ -103,11 +103,18 @@ bool Wektor:: operator != (const Wektor & W2) const
 }
 std::ostream & operator <<(std::ostream & strm, const Wektor & W)
 {
-    strm<<'('<< W[0] <<','<< W[1] <<','<< W[2] <<')';
+    strm<<'(';
+    int i;
+    for (i = 0; i < ROZMIAR-1; ++i)
+        strm<<W[i]<<',';
+
+    strm<<W[i]<<')';
     return strm;
 }
 std::istream & operator >>(std::istream & strm, Wektor & W)
 {
-  strm>>W[0]>>W[1]>>W[2];
+    for(int i=0;i<ROZMIAR;i++)
+         strm>>W[i];
+
     return strm;
 }
