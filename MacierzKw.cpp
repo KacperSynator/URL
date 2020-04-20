@@ -124,7 +124,7 @@ double MacierzKw:: Wyznacznik2x2(int wiersz,int kolumna) // wiersz/kolumna wykre
     }
     return M2x2[0]*M2x2[3]-M2x2[1]*M2x2[2];
 }
-double MacierzKw:: Wyznacznik(MetodaWyznacznik Metoda) // względem pierwszego wiersza
+double MacierzKw:: Wyznacznik(const MetodaWyznacznik Metoda) // względem pierwszego wiersza
 {
      double wynik=0;
      switch (Metoda)
@@ -152,6 +152,26 @@ double MacierzKw:: Wyznacznik(MetodaWyznacznik Metoda) // względem pierwszego w
              MacierzKw MP=tabM;
              for (int i = 0; i <ROZMIAR-1 ; ++i)
              {
+
+                 if(MP[i][i]==0)
+                 {
+                     bool czyZera=true;
+                     for (int k = 0; k < ROZMIAR; k++)
+                     {
+                         if (MP[i][k] != 0)
+                         {
+                             Wektor WP = MP[i];
+                             MP[i] = MP[k];
+                             MP[k] = -1*WP;
+                             czyZera = false;
+                             break;
+                         }
+                     }
+                     if (czyZera)
+                     {
+                         return wynik;
+                     }
+                 }
                  for (int j = i+1; j <ROZMIAR ; ++j)
                  {
                      double l = MP[j][i]/MP[i][i];

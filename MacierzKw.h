@@ -30,7 +30,7 @@ public:
     MacierzKw operator * (double l) const;
     MacierzKw operator / (double l) const;
 
-    double Wyznacznik(MetodaWyznacznik Metoda);
+    double Wyznacznik(const MetodaWyznacznik Metoda);
     const MacierzKw  Odwrotnosc(); // z macierzy dopełnien
 
     bool operator == (const MacierzKw & W2) const;

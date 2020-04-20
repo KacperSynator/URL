@@ -12,7 +12,7 @@ void UkladRownan:: ZmienMacierz(MacierzKw nowy)
 }
 
 
-Wektor UkladRownan:: Oblicz(MetodaOliczania Metoda)
+Wektor UkladRownan:: Oblicz(const MetodaOliczania Metoda)
 {
     Wektor X;
     MacierzKw MP;
@@ -26,7 +26,7 @@ Wektor UkladRownan:: Oblicz(MetodaOliczania Metoda)
             {
             double wyzG = A.Wyznacznik(MacierzKw::Laplace);
             if (wyzG == 0) {
-                std::cout << "Równanie prawdopodobnie sprzeczne lub jest nieskończenie wiele rozwiązań" << std::endl;
+                std::cout << "Równanie sprzeczne lub jest nieskończenie wiele rozwiązań" << std::endl;
                 exit(1);
             }
             for (int i = 1; i <= ROZMIAR; ++i) {
@@ -40,11 +40,34 @@ Wektor UkladRownan:: Oblicz(MetodaOliczania Metoda)
         case Gauss:
             MP=A;
             X=B;
+            double l;
+            if(A.Wyznacznik(MacierzKw::Gauss)==0) {
+                std::cout << "Równanie sprzeczne lub jest nieskończenie wiele rozwiązań" << std::endl;
+                exit (1);
+            }
+            else
             for (int i = 0; i <ROZMIAR-1 ; ++i)
             {
+                if(MP[i][i]==0)
+                {
+                    for (int k = 0; k < ROZMIAR; k++)
+                    {
+                        if (MP[i][k] != 0)
+                        {
+                            Wektor WP = MP[i];
+                            MP[i] = MP[k];
+                            MP[k] = WP;
+                            break;
+                        }
+                    }
+
+                }
                 for (int j = i+1; j <ROZMIAR ; ++j)
                 {
-                    double l = MP[j][i]/MP[i][i];
+                    if(MP[i][i]!=0)
+                        l = MP[j][i]/MP[i][i];
+                    else
+                    {}
                     MP[j]=MP[j]-l*MP[i];
                     X[j]=X[j]-l*X[i];
                 }

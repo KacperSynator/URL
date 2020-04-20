@@ -21,7 +21,7 @@ public:
     void ZmienWektorWolny(Wektor nowy);
     void ZmienMacierz(MacierzKw nowy);
 
-    Wektor Oblicz(MetodaOliczania Metoda);
+    Wektor Oblicz(const MetodaOliczania Metoda);
 
 };
 

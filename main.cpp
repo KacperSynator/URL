@@ -8,10 +8,10 @@ int main() {
     UkladRownan UR;
     std::cin>>UR;
 
-  /*  MacierzKw MK;
+    /*MacierzKw MK;
     std::cin>>MK;
-    std::cout<<MK.Wyznacznik(MacierzKw::Sarrus)<<' '<<MK.Wyznacznik(MacierzKw::Laplace)<<' '<<MK.Wyznacznik(MacierzKw::Gauss)<<std::endl; */
-
+    std::cout<<MK.Wyznacznik(MacierzKw::Sarrus)<<' '<<MK.Wyznacznik(MacierzKw::Laplace)<<' '<<MK.Wyznacznik(MacierzKw::Gauss)<<std::endl;
+*/
     if(!(std::cin.good()))
     {
         std::cout<< "Zly format, sprobuj ponownie"<<std::endl;
